@@ -114,7 +114,7 @@ const Admin = () => {
       </header>
 
       {/* Stats Bento */}
-      <section className="grid grid-cols-4 gap-3 md:gap-6">
+      <section className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
         {[
           { label: 'Usuarios Totales', value: stats.totalUsers, icon: Users, accent: 'text-brand-accent' },
           { label: 'Consultas Totales (Nube)', value: stats.monthlyQueries, icon: Zap, accent: 'text-brand-gold' },

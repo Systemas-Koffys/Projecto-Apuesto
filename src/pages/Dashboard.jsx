@@ -225,9 +225,9 @@ const Dashboard = () => {
         {/* ZONA PRINCIPAL DE DATOS (SCORES24 CLONE) */}
         <div className="lg:col-span-9 min-h-[700px]">
           {!analysis && !isAnalyzing && (
-             <div className="h-full bg-brand-surface border border-brand-border2 rounded-[2rem] flex flex-col items-center justify-center p-12 text-brand-gray">
-                <Target size={60} className="opacity-10 mb-4" />
-                <p className="koffy-mono text-xs uppercase tracking-widest">Esperando configuración de partido...</p>
+          <div className="h-full min-h-[200px] bg-brand-surface border border-brand-border2 rounded-[2rem] flex flex-col items-center justify-center p-8 text-brand-gray">
+               <Target size={48} className="opacity-10 mb-4" />
+               <p className="koffy-mono text-xs uppercase tracking-widest text-center">Esperando configuración de partido...</p>
              </div>
           )}
 
@@ -242,27 +242,32 @@ const Dashboard = () => {
           {analysis && (
             <div className="space-y-6">
               {/* Scorecard Header */}
-              <div className="bg-brand-surface border border-brand-border2 rounded-[2rem] p-8 flex items-center justify-between shadow-2xl relative overflow-hidden">
+              <div className="bg-brand-surface border border-brand-border2 rounded-[2rem] p-5 md:p-8 shadow-2xl relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-1 h-full bg-brand-accent"></div>
-                <div className="flex-1 text-right pr-8">
-                  <h2 className="font-display text-3xl text-white uppercase">{homeTeam?.name}</h2>
-                </div>
-                <div className="bg-brand-bg border border-brand-border px-8 py-4 rounded-2xl flex flex-col items-center">
-                  <span className="font-display text-5xl text-brand-accent">{analysis.scorePrediction}</span>
-                  <span className="koffy-mono text-[8px] text-brand-gray uppercase mt-1">Predicción IA</span>
-                </div>
-                <div className="flex-1 text-left pl-8">
-                  <h2 className="font-display text-3xl text-white uppercase">{awayTeam?.name}</h2>
+                {/* Mobile: stack vertically, Desktop: row */}
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="flex-1 text-center sm:text-right sm:pr-6">
+                    <h2 className="font-display text-2xl md:text-3xl text-brand-text uppercase leading-tight">{homeTeam?.name}</h2>
+                    <p className="koffy-mono text-[8px] text-brand-green mt-1">LOCAL</p>
+                  </div>
+                  <div className="bg-brand-bg border border-brand-border px-6 py-3 md:px-8 md:py-4 rounded-2xl flex flex-col items-center shrink-0">
+                    <span className="font-display text-4xl md:text-5xl text-brand-accent">{analysis.scorePrediction}</span>
+                    <span className="koffy-mono text-[8px] text-brand-gray uppercase mt-1">Predicción IA</span>
+                  </div>
+                  <div className="flex-1 text-center sm:text-left sm:pl-6">
+                    <h2 className="font-display text-2xl md:text-3xl text-brand-text uppercase leading-tight">{awayTeam?.name}</h2>
+                    <p className="koffy-mono text-[8px] text-brand-accent mt-1">VISITANTE</p>
+                  </div>
                 </div>
               </div>
 
               {/* Pestañas de Navegación (Estilo Scores24) */}
-              <div className="flex gap-2 border-b border-brand-border2 pb-4">
+              <div className="flex gap-2 border-b border-brand-border2 pb-4 overflow-x-auto scrollbar-hide">
                 {['resumen', 'pronóstico', 'tendencias', 'probabilidades'].map(tab => (
                   <button 
                     key={tab} 
                     onClick={() => setActiveTab(tab)}
-                    className={`koffy-mono text-[10px] uppercase tracking-widest px-6 py-2 rounded-full transition-colors ${activeTab === tab ? 'bg-brand-accent text-brand-bg font-bold' : 'text-brand-gray hover:text-white'}`}
+                    className={`koffy-mono text-[9px] md:text-[10px] uppercase tracking-widest px-4 md:px-6 py-2 rounded-full transition-colors whitespace-nowrap shrink-0 ${activeTab === tab ? 'bg-brand-accent text-brand-bg font-bold' : 'text-brand-gray hover:text-brand-text'}`}
                   >
                     {tab}
                   </button>

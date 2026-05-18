@@ -83,3 +83,19 @@
     linear-gradient(90deg, #1e2f42 1px, transparent 1px);
   background-size: 40px 40px;
 }
+
+/* Ocultar scrollbar manteniendo el scroll táctil */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Prevenir zoom en inputs al hacer focus en iOS */
+@media screen and (max-width: 768px) {
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+}
