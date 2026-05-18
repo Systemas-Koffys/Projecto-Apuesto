@@ -49,8 +49,24 @@ const Dashboard = () => {
     if (!homeTeam || !awayTeam) return toast.error('Selecciona ambos equipos');
     setIsAnalyzing(true); setAnalysis(null);
     try {
-      setAnalysis(await generateAnalysis(homeTeam, awayTeam));
+      const result = await generateAnalysis(homeTeam, awayTeam);
+      setAnalysis(result);
       toast.success('Terminal Scores24 Actualizada');
+
+      // Guardar en historial local para la campanita de notificaciones
+      try {
+        const prev = JSON.parse(localStorage.getItem('koffy_analysis_history') || '[]');
+        const newEntry = {
+          home: homeTeam.name,
+          away: awayTeam.name,
+          confidence: result.confidenceScore || result.confidence || 85,
+          date: new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })
+        };
+        const updated = [newEntry, ...prev].slice(0, 5);
+        localStorage.setItem('koffy_analysis_history', JSON.stringify(updated));
+        window.dispatchEvent(new Event('koffy_analysis_saved'));
+      } catch {}
+
 
       // Incrementar contador de consultas reales del usuario de forma atómica en la nube (Día vs Mes)
       if (user?.uid && db) {

@@ -1,4 +1,32 @@
 
+/* ===== Tema Oscuro (por defecto) ===== */
+:root {
+  --color-bg: #060a0f;
+  --color-bg2: #0b1117;
+  --color-surface: #0f1923;
+  --color-card: #141f2b;
+  --color-card2: #192535;
+  --color-border: #1e2f42;
+  --color-border2: #253a52;
+  --color-text: #e4edf5;
+  --color-text2: #8ba0b4;
+  --color-gray: #607080;
+}
+
+/* ===== Tema Claro ===== */
+:root:not(.dark) {
+  --color-bg: #f0f4f8;
+  --color-bg2: #e2eaf2;
+  --color-surface: #ffffff;
+  --color-card: #f8fafc;
+  --color-card2: #edf2f7;
+  --color-border: #cbd5e0;
+  --color-border2: #a0aec0;
+  --color-text: #1a202c;
+  --color-text2: #4a5568;
+  --color-gray: #718096;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

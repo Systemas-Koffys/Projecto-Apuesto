@@ -8,23 +8,22 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Renaming to avoid collisions with Tailwind internal keys
         brand: {
-          bg: '#060a0f',
-          bg2: '#0b1117',
-          surface: '#0f1923',
-          card: '#141f2b',
-          card2: '#192535',
-          border: '#1e2f42',
-          border2: '#253a52',
+          bg: 'var(--color-bg)',
+          bg2: 'var(--color-bg2)',
+          surface: 'var(--color-surface)',
+          card: 'var(--color-card)',
+          card2: 'var(--color-card2)',
+          border: 'var(--color-border)',
+          border2: 'var(--color-border2)',
           accent: '#00d4ff',
           accent2: '#0099bb',
           gold: '#f5b800',
           green: '#00e676',
           red: '#ff4757',
-          text: '#e4edf5',
-          text2: '#8ba0b4',
-          gray: '#607080',
+          text: 'var(--color-text)',
+          text2: 'var(--color-text2)',
+          gray: 'var(--color-gray)',
         }
       },
       fontFamily: {

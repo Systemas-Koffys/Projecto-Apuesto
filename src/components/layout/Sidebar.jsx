@@ -4,7 +4,6 @@ import {
   ShieldCheck, 
   User, 
   TrendingUp,
-  Settings,
   LogOut,
   X
 } from 'lucide-react';
@@ -28,12 +27,6 @@ const Sidebar = ({ isOpen, onClose }) => {
         { name: 'Panel Root', path: '/admin', icon: ShieldCheck },
       ]
     }] : []),
-    {
-      label: 'Sistema',
-      items: [
-        { name: 'Ajustes', path: '/settings', icon: Settings },
-      ]
-    }
   ];
 
   const handleNavClick = () => {
