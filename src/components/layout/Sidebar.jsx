@@ -51,12 +51,15 @@ const Sidebar = ({ isOpen, onClose }) => {
       )}>
         <div className="p-6 border-b border-brand-border flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gradient-neon rounded-lg flex items-center justify-center font-display text-brand-bg text-lg">
-              K
+            <div className="w-8 h-8 bg-gradient-neon rounded-lg flex items-center justify-center overflow-hidden">
+              <img src="/icon-192.png" alt="RichBet" className="w-full h-full object-cover" />
             </div>
-            <span className="font-display text-2xl tracking-widest bg-gradient-to-r from-brand-accent to-white bg-clip-text text-transparent">
-              KOFFY'S
-            </span>
+            <div className="min-w-0">
+              <span className="font-display text-lg tracking-widest bg-gradient-to-r from-brand-accent to-white bg-clip-text text-transparent block leading-tight">
+                RICHBET
+              </span>
+              <span className="koffy-mono text-[6px] text-brand-gray tracking-widest block">ANALYTICS</span>
+            </div>
           </div>
           <button
             onClick={onClose}

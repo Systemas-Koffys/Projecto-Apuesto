@@ -136,11 +136,12 @@ const Login = () => {
       <motion.div layout className="w-full max-w-[460px] bg-brand-surface border border-brand-border2 rounded-[2rem] p-10 md:p-14 shadow-2xl relative z-10">
         
         <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-neon mb-6 shadow-lg shadow-brand-accent/20">
-            <Zap className="text-brand-bg" size={32} fill="currentColor" />
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl overflow-hidden mb-6 shadow-lg shadow-brand-accent/20">
+            <img src="/icon-192.png" alt="RichBet" className="w-full h-full object-cover" />
           </div>
-          <h1 className="font-display text-5xl tracking-[0.25em] text-white">KOFFY'S</h1>
-          <p className="koffy-mono text-[9px] text-brand-accent mt-3 tracking-[0.4em] font-bold uppercase">Security Terminal</p>
+          <h1 className="font-display text-4xl tracking-[0.2em] text-white">RICHBET</h1>
+          <p className="font-display text-lg tracking-[0.15em] text-brand-accent/80">ANALYTICS</p>
+          <p className="koffy-mono text-[8px] text-brand-gray mt-2 tracking-[0.3em] uppercase">El Nuevo Método Apostador · Beta Tester</p>
         </div>
 
         <AnimatePresence mode="wait">

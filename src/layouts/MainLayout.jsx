@@ -33,8 +33,9 @@ const MainLayout = () => {
             <ShieldAlert className="text-red-500" size={40} />
           </div>
 
-          <h1 className="font-display text-2xl tracking-[0.2em] text-red-500 uppercase mb-2">Terminal Suspendida</h1>
-          <p className="font-mono text-[9px] text-red-700 tracking-[0.4em] font-bold uppercase mb-6">Access Revoked</p>
+          <h1 className="font-display text-2xl tracking-[0.2em] text-red-500 uppercase mb-1">Terminal Suspendida</h1>
+          <p className="font-display text-sm tracking-widest text-red-700/70 mb-1">RichBet Analytics</p>
+          <p className="font-mono text-[9px] text-red-700 tracking-[0.4em] font-bold uppercase mb-6">Access Revoked · Sistemas Koffys</p>
 
           <div className="space-y-4 p-5 bg-red-950/10 rounded-2xl border border-red-950/40 mb-8 text-left">
             <div className="flex items-start gap-3">

@@ -2,16 +2,52 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Icono de la App -->
+    <link rel="icon" type="image/png" href="/icon-192.png" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#00d4ff" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="RichBet" />
+    <meta name="mobile-web-app-capable" content="yes" />
+
+    <!-- SEO & Info -->
+    <title>RichBet Analytics — El Nuevo Método Apostador</title>
+    <meta name="description" content="Análisis de fútbol con inteligencia artificial basados en el Método Richart. Desarrollado por Sistemas Koffys. Beta Tester." />
+    <meta name="author" content="Sistemas Koffys" />
+    <meta name="application-name" content="RichBet Analytics" />
+
+    <!-- Open Graph (para compartir en redes sociales) -->
+    <meta property="og:title" content="RichBet Analytics" />
+    <meta property="og:description" content="El nuevo método apostador. Análisis IA con Grok y Gemini." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/icon-512.png" />
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <title>Koffy's - Análisis IA Premium</title>
-    <meta name="description" content="Sistema avanzado de análisis de apuestas deportivas con IA" />
   </head>
   <body class="bg-[#060a0f] text-[#e4edf5] font-body transition-colors duration-300">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+
+    <!-- Registro del Service Worker para PWA -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('[RichBet PWA] Service Worker activo:', reg.scope))
+            .catch(err => console.warn('[RichBet PWA] Error al registrar SW:', err));
+        });
+      }
+    </script>
   </body>
 </html>
