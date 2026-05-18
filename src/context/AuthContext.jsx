@@ -74,7 +74,9 @@ export const AuthProvider = ({ children }) => {
                     ...prev,
                     role: data.role || prev.role,
                     status: data.status || prev.status,
-                    queries: data.queries || prev.queries
+                    queries: data.queries || prev.queries,
+                    createdAt: data.createdAt || prev.createdAt,
+                    unlockedAt: data.unlockedAt || data.createdAt || prev.createdAt,
                   };
                 });
               }

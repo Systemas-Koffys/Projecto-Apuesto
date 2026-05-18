@@ -13,18 +13,18 @@
   --color-gray: #607080;
 }
 
-/* ===== Tema Claro ===== */
+/* ===== Tema Claro (Premium Slate) ===== */
 :root:not(.dark) {
-  --color-bg: #f0f4f8;
-  --color-bg2: #e2eaf2;
+  --color-bg: #f1f5f9;
+  --color-bg2: #e8edf5;
   --color-surface: #ffffff;
   --color-card: #f8fafc;
-  --color-card2: #edf2f7;
-  --color-border: #cbd5e0;
-  --color-border2: #a0aec0;
-  --color-text: #1a202c;
-  --color-text2: #4a5568;
-  --color-gray: #718096;
+  --color-card2: #eef2f7;
+  --color-border: #dde3ee;
+  --color-border2: #c5cfdf;
+  --color-text: #0f172a;
+  --color-text2: #475569;
+  --color-gray: #94a3b8;
 }
 
 @tailwind base;

@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Shield, Zap, LogOut, Terminal, User, Edit3, Save, X, Tag, HelpCircle, Eye } from 'lucide-react';
+import { Mail, Shield, Zap, LogOut, Terminal, User, Edit3, Save, X, Tag, HelpCircle, Eye, Clock, AlertTriangle } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { db } from '../firebase.config';
+import { doc, updateDoc } from 'firebase/firestore';
 
 const Profile = () => {
   const { user, logout, updateUserProfile } = useAuth();
@@ -11,9 +13,46 @@ const Profile = () => {
   const [editPhoto, setEditPhoto] = useState(user?.photoURL || '');
   const [promoCode, setPromoCode] = useState('');
   const [isRedeeming, setIsRedeeming] = useState(false);
-  const [subscriptionDays, setSubscriptionDays] = useState(120);
   const [imgError, setImgError] = useState(false);
   const [saveLoading, setSaveLoading] = useState(false);
+
+  // Calculo real de dias restantes basado en createdAt (30 dias de acceso)
+  const PLAN_DAYS = 30;
+  const { daysRemaining, expiryDate, isExpired } = useMemo(() => {
+    if (user?.role === 'admin') return { daysRemaining: null, expiryDate: null, isExpired: false };
+    const rawDate = user?.unlockedAt || user?.createdAt;
+    if (!rawDate) return { daysRemaining: PLAN_DAYS, expiryDate: null, isExpired: false };
+    // Parsear fecha DD/MM/YYYY
+    const parts = rawDate.split('/');
+    const startDate = parts.length === 3
+      ? new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]))
+      : new Date(rawDate);
+    const expiry = new Date(startDate);
+    expiry.setDate(expiry.getDate() + PLAN_DAYS);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const diff = Math.ceil((expiry - today) / (1000 * 60 * 60 * 24));
+    return {
+      daysRemaining: Math.max(0, diff),
+      expiryDate: expiry.toLocaleDateString('es-ES'),
+      isExpired: diff <= 0
+    };
+  }, [user?.createdAt, user?.unlockedAt, user?.role]);
+
+  // Auto-bloqueo cuando expira el plan
+  useEffect(() => {
+    if (isExpired && user?.role !== 'admin' && user?.status === 'active' && user?.uid && db) {
+      const autoBlock = async () => {
+        try {
+          await updateDoc(doc(db, 'users', user.uid), { status: 'suspended' });
+          toast.error('Tu acceso de 30 días ha expirado. Contacta al administrador.');
+        } catch (e) {
+          console.warn('No se pudo auto-bloquear:', e.message);
+        }
+      };
+      autoBlock();
+    }
+  }, [isExpired, user?.role, user?.status, user?.uid]);
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -139,29 +178,43 @@ const Profile = () => {
               </div>
 
               {/* Tarjeta de Suscripción Dinámica */}
-              <div className="koffy-card bg-brand-accent/5 border-brand-accent/20 p-6 flex items-center justify-between">
+              <div className={`koffy-card p-6 flex items-center justify-between ${isExpired ? 'bg-brand-red/5 border-brand-red/20' : 'bg-brand-accent/5 border-brand-accent/20'}`}>
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-brand-accent/10 flex items-center justify-center text-brand-accent">
-                    <Zap size={24} />
+                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${isExpired ? 'bg-brand-red/10 text-brand-red' : 'bg-brand-accent/10 text-brand-accent'}`}>
+                    {isExpired ? <AlertTriangle size={24} /> : <Zap size={24} />}
                   </div>
                   {user?.role === 'admin' ? (
                     <div>
                       <p className="koffy-title text-lg leading-tight text-brand-accent">ACCESO ROOT ILIMITADO</p>
-                      <p className="koffy-mono text-[9px] text-brand-gray mt-1">Control total sobre los motores de análisis y base de datos</p>
+                      <p className="koffy-mono text-[9px] text-brand-gray mt-1">Control total · Sistemas Koffys</p>
                     </div>
                   ) : (
                     <div>
-                      <p className="koffy-title text-lg leading-tight">PLAN PREMIUM ACTIVO</p>
-                      <p className="koffy-mono text-[9px] text-brand-accent/70 mt-1">Acceso ilimitado al motor de predicción IA</p>
+                      <p className={`koffy-title text-lg leading-tight ${isExpired ? 'text-brand-red' : ''}`}>
+                        {isExpired ? 'ACCESO EXPIRADO' : 'BETA TESTER ACTIVO'}
+                      </p>
+                      <p className="koffy-mono text-[9px] text-brand-gray mt-1">
+                        {isExpired ? 'Contacta al administrador para renovar' : `RichBet Analytics · Método Richart`}
+                      </p>
                     </div>
                   )}
                 </div>
-                <div className="text-right">
-                  <p className="koffy-mono text-[10px] text-brand-gray">VENCE EN:</p>
-                  <p className="koffy-mono text-sm text-brand-text font-bold uppercase">
-                    {user?.role === 'admin' ? 'NUNCA (VITALICIO)' : `${subscriptionDays} DÍAS`}
-                  </p>
-                </div>
+                {user?.role !== 'admin' && (
+                  <div className="text-right shrink-0 ml-4">
+                    <p className="koffy-mono text-[9px] text-brand-gray">VENCE EN:</p>
+                    <p className={`koffy-mono text-xl font-bold ${
+                      isExpired ? 'text-brand-red' :
+                      daysRemaining <= 5 ? 'text-brand-red animate-pulse' :
+                      daysRemaining <= 10 ? 'text-brand-gold' :
+                      'text-brand-green'
+                    }`}>
+                      {isExpired ? '0 DÍAS' : `${daysRemaining} DÍAS`}
+                    </p>
+                    {expiryDate && (
+                      <p className="koffy-mono text-[7px] text-brand-gray mt-0.5">{expiryDate}</p>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Botonera Principal */}
