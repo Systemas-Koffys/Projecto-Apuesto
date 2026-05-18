@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Outlet, Navigate } from 'react-router-dom';
 import Sidebar from '../components/layout/Sidebar';
 import Navbar from '../components/layout/Navbar';
@@ -8,6 +8,7 @@ import { ShieldAlert, LogOut, Terminal, PhoneCall } from 'lucide-react';
 
 const MainLayout = () => {
   const { isAuthenticated, user, logout } = useAuth();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
@@ -74,10 +75,10 @@ const MainLayout = () => {
 
   return (
     <div className="flex min-h-screen bg-brand-bg selection:bg-brand-accent/30">
-      <Sidebar />
-      <div className="flex-1 flex flex-col min-w-0">
-        <Navbar />
-        <main className="flex-1 p-8">
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <div className="flex-1 flex flex-col min-w-0 md:ml-0">
+        <Navbar onMenuClick={() => setSidebarOpen(true)} />
+        <main className="flex-1 p-4 md:p-8">
           <AnimatePresence mode="wait">
             <motion.div
               key={window.location.pathname}

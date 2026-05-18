@@ -3,17 +3,20 @@ import { useTheme } from '../../context/ThemeContext';
 import { Sun, Moon, Bell, Menu } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
-const Navbar = () => {
+const Navbar = ({ onMenuClick }) => {
   const { darkMode, toggleDarkMode } = useTheme();
   const { user } = useAuth();
 
   return (
-    <nav className="h-[60px] bg-brand-surface border-b border-brand-border flex items-center justify-between px-6 sticky top-0 z-40">
+    <nav className="h-[60px] bg-brand-surface border-b border-brand-border flex items-center justify-between px-4 md:px-6 sticky top-0 z-40">
       <div className="flex items-center gap-4">
-        <button className="p-2 text-brand-text2 hover:text-brand-text hover:bg-brand-card rounded-lg transition-all md:hidden">
+        <button 
+          onClick={onMenuClick}
+          className="p-2 text-brand-text2 hover:text-brand-text hover:bg-brand-card rounded-lg transition-all md:hidden"
+        >
           <Menu size={18} />
         </button>
-        <h2 className="koffy-title text-xl text-brand-text">Panel de Control</h2>
+        <h2 className="koffy-title text-lg md:text-xl text-brand-text">Panel de Control</h2>
       </div>
 
       <div className="flex items-center gap-6">
